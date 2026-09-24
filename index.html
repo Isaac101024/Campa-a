@@ -34,20 +34,37 @@
 
   nav{
     display:flex; justify-content:space-between; align-items:center;
-    padding:1.4rem 1.5rem; border-bottom:1px solid var(--line);
+    padding:1.2rem 1.5rem; border-bottom:1px solid var(--line);
+    position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); z-index:10;
   }
   .brand{font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem; color:var(--forest);}
   .brand span{color:var(--clay);}
+  .nav-links{display:flex; gap:1.3rem; align-items:center;}
+  .nav-links a{
+    font-size:0.85rem; color:var(--ink); opacity:0.75; text-decoration:none;
+  }
+  .nav-links a:hover{opacity:1; color:var(--forest);}
+  .nav-links a.cta-link{
+    background:var(--clay); color:#fff; opacity:1; padding:0.45rem 0.9rem;
+    border-radius:999px; font-weight:600;
+  }
+  @media (max-width:600px){.nav-links a:not(.cta-link){display:none;}}
   .proyecto-tag{font-size:0.78rem; color:var(--moss); border:1px solid var(--line); padding:0.25rem 0.7rem; border-radius:999px;}
 
-  header.hero{padding:4.5rem 0 3.5rem;}
+  header.hero{padding:4.5rem 0 2.5rem; animation:subir 0.7s ease both;}
+  @keyframes subir{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
   .eyebrow{font-size:0.85rem; color:var(--moss); margin:0 0 0.7rem; font-weight:500;}
   h1{
     font-family:'Fraunces',serif; font-size:clamp(2.2rem,6vw,3.4rem);
     font-weight:600; line-height:1.08; margin:0 0 1.1rem; color:var(--forest);
     max-width:14ch;
   }
-  .hero p{font-size:1.1rem; max-width:56ch; opacity:0.85; margin:0;}
+  .hero p{font-size:1.1rem; max-width:56ch; opacity:0.85; margin:0 0 1.2rem;}
+  .slogan{
+    font-family:'Fraunces',serif; font-style:italic; font-size:1.05rem;
+    color:var(--clay); max-width:44ch; margin:0 0 0.8rem; line-height:1.5;
+  }
+  .hashtag{font-size:0.85rem; color:var(--moss); font-weight:600; letter-spacing:0.02em;}
 
   section{padding:3rem 0; border-top:1px solid var(--line);}
   h2{font-family:'Fraunces',serif; font-size:1.6rem; font-weight:600; color:var(--forest); margin:0 0 1rem; max-width:26ch;}
@@ -66,8 +83,11 @@
     aspect-ratio:1; border-radius:14px; background:var(--sand);
     display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.5rem;
     color:var(--forest); text-align:center; padding:1rem;
+    transition:transform 0.2s ease, background 0.2s ease;
   }
-  .cuadro svg{width:2.3rem; height:2.3rem; color:var(--moss);}
+  .cuadro:hover{transform:translateY(-4px); background:var(--moss); color:var(--bg);}
+  .cuadro:hover svg{color:var(--bg);}
+  .cuadro svg{width:2.3rem; height:2.3rem; color:var(--moss); transition:color 0.2s ease;}
   .cuadro span{font-size:0.82rem; font-weight:500; max-width:12ch;}
 
   .recursos{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.7rem;}
@@ -114,12 +134,38 @@
   .cta .confirm{font-size:0.85rem; margin-top:0.8rem; opacity:0.85; display:none;}
 
   footer{padding:2rem 0 3rem; font-size:0.85rem; opacity:0.6;}
+
+  .equipo{display:flex; flex-direction:column; gap:0.8rem; margin-top:0.5rem;}
+  .integrante{
+    display:flex; align-items:center; gap:0.9rem;
+    padding:0.9rem 1.1rem; background:var(--sand); border-radius:12px;
+  }
+  .avatar{
+    flex:none; width:2.6rem; height:2.6rem; border-radius:50%;
+    background:var(--clay); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-weight:600; font-size:0.95rem;
+  }
+  .integrante span{font-size:0.95rem; font-weight:500; color:var(--forest);}
+
+  .flotante{
+    position:fixed; bottom:1.2rem; right:1.2rem;
+    bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));
+    background:var(--clay); color:#fff; text-decoration:none;
+    padding:0.8rem 1.3rem; border-radius:999px; font-weight:600; font-size:0.9rem;
+    box-shadow:0 6px 20px rgba(0,0,0,0.18); z-index:20;
+  }
+  .flotante:hover{opacity:0.92;}
 </style>
 </head>
 <body>
   <nav>
     <div class="brand">Capital <span>Vivo</span></div>
-    <div class="proyecto-tag">Proyecto académico</div>
+    <div class="nav-links">
+      <a href="#ejes">Ejes</a>
+      <a href="#proyecto">Proyecto</a>
+      <a href="#enlaces">Enlaces</a>
+      <a href="#sumate" class="cta-link">Súmate</a>
+    </div>
   </nav>
 
   <div class="wrap">
@@ -127,9 +173,11 @@
       <p class="eyebrow">Campaña ambiental universitaria</p>
       <h1>La naturaleza no espera a que la ley la alcance</h1>
       <p>Una campaña que une dos ideas: no hay desarrollo real si se agota el entorno que lo sostiene, y no hay entorno protegido si la ley que debería cuidarlo no se aplica.</p>
+      <p class="slogan">"Sin naturaleza no hay ley que proteger, sin ley no hay naturaleza que dure."</p>
+      <p class="hashtag">#CapitalVivo</p>
     </header>
 
-    <section>
+    <section id="ejes">
       <h2>Dos ejes, una sola causa</h2>
       <div class="pilares">
         <div class="pilar">
@@ -177,6 +225,21 @@
       </div>
     </section>
 
+    <section id="proyecto">
+      <h2>Sobre el proyecto</h2>
+      <p style="max-width:60ch; margin:0 0 1.2rem;">Capital Vivo es un proyecto académico que busca conectar la conservación ambiental con la exigencia de una gestión legal efectiva.</p>
+      <div class="equipo">
+        <div class="integrante">
+          <div class="avatar">AI</div>
+          <span>Angel Isaac Cano Perfecto</span>
+        </div>
+        <div class="integrante">
+          <div class="avatar">FN</div>
+          <span>Fátima Nayeri Álvarez Ugalde</span>
+        </div>
+      </div>
+    </section>
+
     <section class="por-que">
       <h2>¿Por qué esta campaña?</h2>
       <p>Muchas veces se habla del medio ambiente y de las leyes que lo protegen como si fueran temas separados. Esta campaña busca mostrar que son la misma lucha: de nada sirve cuidar la naturaleza si las instituciones no responden, y de nada sirve tener leyes si no hay nada que proteger.</p>
@@ -193,7 +256,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="enlaces">
       <h2>Fuentes y enlaces oficiales</h2>
       <div class="recursos">
         <a class="recurso" href="https://www.gob.mx/semarnat" target="_blank" rel="noopener">
@@ -215,7 +278,7 @@
       </div>
     </section>
 
-    <div class="cta">
+    <div class="cta" id="sumate">
       <h2>Súmate a Capital Vivo</h2>
       <p>Deja tu nombre para sumarte simbólicamente a la campaña dentro de este proyecto.</p>
       <form onsubmit="event.preventDefault(); document.getElementById('confirm').style.display='block'; this.reset();">
@@ -225,7 +288,9 @@
       <p class="confirm" id="confirm">¡Gracias por sumarte a Capital Vivo!</p>
     </div>
 
-    <footer>Capital Vivo — proyecto académico sobre conservación y aplicación de la ley ambiental.</footer>
+    <footer>Capital Vivo — proyecto académico sobre conservación y aplicación de la ley ambiental. #CapitalVivo</footer>
   </div>
+
+  <a href="#sumate" class="flotante">Súmate ↑</a>
 </body>
 </html>
