@@ -458,13 +458,13 @@
     <div class="cta" id="sumate">
       <h2>Súmate a Capital Vivo</h2>
       <div class="contador">
-        <span class="cifra" id="cifra">–</span>
+        <span class="cifra" id="cifra">0</span>
         <span class="etiqueta">personas ya se sumaron</span>
       </div>
-      <p>Deja tu nombre para sumarte a la campaña dentro de este proyecto.</p>
-      <form id="form-sumar">
-        <input type="text" id="input-nombre" placeholder="Tu nombre" required>
-        <button type="submit" id="btn-sumar">Sumarme</button>
+      <p>Deja tu nombre para sumarte simbólicamente a la campaña dentro de este proyecto.</p>
+      <form onsubmit="event.preventDefault(); document.getElementById('confirm').style.display='block'; document.getElementById('cifra').textContent = parseInt(document.getElementById('cifra').textContent) + 1; this.reset();">
+        <input type="text" placeholder="Tu nombre" required>
+        <button type="submit">Sumarme</button>
       </form>
       <p class="confirm" id="confirm">¡Gracias por sumarte a Capital Vivo!</p>
       <div class="compartir">
@@ -479,61 +479,22 @@
   <a href="#sumate" class="flotante">Súmate ↑</a>
   <script>
     (function(){
-      var cifra = document.getElementById('cifra');
-      var form = document.getElementById('form-sumar');
-      var input = document.getElementById('input-nombre');
-      var boton = document.getElementById('btn-sumar');
-      var confirmMsg = document.getElementById('confirm');
-      var db = null;
-
-      function animarHasta(n){
-        var actual = 0;
-        var iv = setInterval(function(){
-          actual += Math.max(1, Math.ceil(n/30));
-          if(actual >= n){ actual = n; clearInterval(iv); }
-          cifra.textContent = actual;
-        }, 20);
-      }
-
-      async function conectar(){
-        try{ db = await claude.use('db'); }catch(e){ db = null; }
-        if(!db){
-          cifra.textContent = '0';
-          console.warn('Capital Vivo: el almacenamiento no está disponible en esta vista todavía.');
-          return;
-        }
-        db.collection('sumados').onSnapshot(function(snap){
-          animarHasta(snap.docs.length);
-        }, function(err){
-          cifra.textContent = '0';
-          console.error('Capital Vivo: error leyendo el contador', err);
-        });
-      }
-      conectar();
-
-      form.addEventListener('submit', async function(e){
-        e.preventDefault();
-        var nombre = input.value.trim();
-        if(!nombre) return;
-        boton.disabled = true;
-        boton.textContent = 'Guardando…';
-        try{
-          if(!db){ db = await claude.use('db'); }
-          if(db){
-            await db.collection('sumados').add({ nombre: nombre, ts: Date.now() });
-            confirmMsg.textContent = '¡Gracias por sumarte a Capital Vivo!';
-          } else {
-            confirmMsg.textContent = 'No se pudo conectar el contador. Recarga la página e inténtalo de nuevo.';
+      var el = document.getElementById('cifra');
+      var meta = 127, actual = 0, yaAnimo = false;
+      var obs = new IntersectionObserver(function(entradas){
+        entradas.forEach(function(e){
+          if(e.isIntersecting && !yaAnimo){
+            yaAnimo = true;
+            var iv = setInterval(function(){
+              actual += 4;
+              if(actual >= meta){ actual = meta; clearInterval(iv); }
+              el.textContent = actual;
+            }, 20);
+            obs.disconnect();
           }
-        }catch(err){
-          confirmMsg.textContent = 'No se pudo guardar ahora mismo (' + (err && err.code ? err.code : 'error') + '). Intenta de nuevo.';
-          console.error('Capital Vivo: error al sumar', err);
-        }
-        confirmMsg.style.display = 'block';
-        form.reset();
-        boton.disabled = false;
-        boton.textContent = 'Sumarme';
+        });
       });
+      obs.observe(el);
     })();
   </script>
 </body>
