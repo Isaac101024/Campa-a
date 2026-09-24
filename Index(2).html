@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capital Vivo — Campaña ambiental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1EEE3; --ink:#1F2A1D; --forest:#2C4A2E; --moss:#6E8B5E;
+    --sand:#E4DCC4; --clay:#B4551F; --line:rgba(31,42,29,0.16);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141C13; --ink:#EDE9DC; --forest:#BFE0BE; --moss:#9CB98B;
+      --sand:#1E2A1C; --clay:#E08A4F; --line:rgba(237,233,220,0.18);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141C13; --ink:#EDE9DC; --forest:#BFE0BE; --moss:#9CB98B;
+    --sand:#1E2A1C; --clay:#E08A4F; --line:rgba(237,233,220,0.18);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+    line-height:1.6;
+  }
+  .wrap{max-width:800px; margin:0 auto; padding:0 1.5rem;}
+
+  nav{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.4rem 1.5rem; border-bottom:1px solid var(--line);
+  }
+  .brand{font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem; color:var(--forest);}
+  .brand span{color:var(--clay);}
+  .proyecto-tag{font-size:0.78rem; color:var(--moss); border:1px solid var(--line); padding:0.25rem 0.7rem; border-radius:999px;}
+
+  header.hero{padding:4.5rem 0 3.5rem;}
+  .eyebrow{font-size:0.85rem; color:var(--moss); margin:0 0 0.7rem; font-weight:500;}
+  h1{
+    font-family:'Fraunces',serif; font-size:clamp(2.2rem,6vw,3.4rem);
+    font-weight:600; line-height:1.08; margin:0 0 1.1rem; color:var(--forest);
+    max-width:14ch;
+  }
+  .hero p{font-size:1.1rem; max-width:56ch; opacity:0.85; margin:0;}
+
+  section{padding:3rem 0; border-top:1px solid var(--line);}
+  h2{font-family:'Fraunces',serif; font-size:1.6rem; font-weight:600; color:var(--forest); margin:0 0 1rem; max-width:26ch;}
+
+  .pilares{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;}
+  @media (max-width:640px){.pilares{grid-template-columns:1fr;}}
+  .pilar{background:var(--sand); border-radius:14px; padding:1.8rem;}
+  .pilar svg{width:2.2rem; height:2.2rem; margin-bottom:0.9rem; display:block; color:var(--clay);}
+  .pilar .num{font-family:'Fraunces',serif; font-size:1.8rem; font-weight:700; color:var(--clay); display:block; margin-bottom:0.5rem;}
+  .pilar h3{font-family:'Fraunces',serif; font-size:1.15rem; margin:0 0 0.6rem; color:var(--forest);}
+  .pilar p{font-size:0.95rem; margin:0; opacity:0.9;}
+
+  .galeria{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:0.5rem;}
+  @media (max-width:640px){.galeria{grid-template-columns:repeat(2,1fr);}}
+  .cuadro{
+    aspect-ratio:1; border-radius:14px; background:var(--sand);
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.5rem;
+    color:var(--forest); text-align:center; padding:1rem;
+  }
+  .cuadro svg{width:2.3rem; height:2.3rem; color:var(--moss);}
+  .cuadro span{font-size:0.82rem; font-weight:500; max-width:12ch;}
+
+  .recursos{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.7rem;}
+  .recurso{
+    display:flex; justify-content:space-between; align-items:center; gap:1rem;
+    padding:1rem 1.2rem; border:1px solid var(--line); border-radius:12px;
+    text-decoration:none; color:var(--ink);
+  }
+  .recurso:hover{border-color:var(--moss);}
+  .recurso .info strong{display:block; font-size:0.98rem; color:var(--forest); font-weight:600;}
+  .recurso .info small{font-size:0.82rem; opacity:0.7;}
+  .recurso .arrow{color:var(--clay); font-size:1.1rem; flex:none;}
+
+  .por-que p{max-width:60ch; margin:0 0 1rem;}
+
+  .acciones{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.9rem;}
+  .acciones li{
+    display:flex; gap:0.9rem; align-items:flex-start;
+    font-size:0.98rem; padding-bottom:0.9rem; border-bottom:1px solid var(--line);
+  }
+  .acciones li:last-child{border-bottom:none; padding-bottom:0;}
+  .bullet{
+    flex:none; width:0.55rem; height:0.55rem; border-radius:50%;
+    background:var(--moss); margin-top:0.5rem;
+  }
+
+  .cta{
+    background:var(--forest); color:var(--bg); border-radius:18px;
+    padding:2.4rem; text-align:left; margin:3rem 0;
+  }
+  .cta h2{color:var(--bg);}
+  .cta p{opacity:0.85; max-width:50ch; margin:0 0 1.4rem;}
+  .cta form{display:flex; gap:0.6rem; flex-wrap:wrap;}
+  .cta input[type=text]{
+    flex:1; min-width:200px; padding:0.75rem 1rem; border-radius:10px; border:none;
+    font-family:'Inter',sans-serif; font-size:0.95rem;
+  }
+  .cta button{
+    background:var(--clay); color:#fff; border:none; padding:0.75rem 1.3rem;
+    border-radius:10px; font-weight:600; font-size:0.95rem; cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .cta button:hover{opacity:0.92;}
+  .cta .confirm{font-size:0.85rem; margin-top:0.8rem; opacity:0.85; display:none;}
+
+  footer{padding:2rem 0 3rem; font-size:0.85rem; opacity:0.6;}
+</style>
+</head>
+<body>
+  <nav>
+    <div class="brand">Capital <span>Vivo</span></div>
+    <div class="proyecto-tag">Proyecto académico</div>
+  </nav>
+
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Campaña ambiental universitaria</p>
+      <h1>La naturaleza no espera a que la ley la alcance</h1>
+      <p>Una campaña que une dos ideas: no hay desarrollo real si se agota el entorno que lo sostiene, y no hay entorno protegido si la ley que debería cuidarlo no se aplica.</p>
+    </header>
+
+    <section>
+      <h2>Dos ejes, una sola causa</h2>
+      <div class="pilares">
+        <div class="pilar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2C7 2 4 7 4 12c0 5.5 4.5 10 8 10s8-4.5 8-10c0-5-3-10-8-10Z"/><path d="M12 22V10"/></svg>
+          <span class="num">01</span>
+          <h3>Conservar para crecer</h3>
+          <p>El bosque, el agua y el suelo no son un obstáculo para el desarrollo: son su base. Integrar su conservación a cada decisión económica y social es lo que hace sostenible al crecimiento.</p>
+        </div>
+        <div class="pilar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18M5 8l-3 6a3 3 0 0 0 6 0l-3-6Zm14 0l-3 6a3 3 0 0 0 6 0l-3-6Z"/><path d="M5 8h14M8 21h8"/></svg>
+          <span class="num">02</span>
+          <h3>Que la ley se cumpla</h3>
+          <p>Una ley ambiental que no se aplica con rapidez y transparencia no protege a nadie. Exigir gestión eficiente es exigir que la protección del entorno sea real, no solo escrita.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Lo que está en juego</h2>
+      <div class="galeria">
+        <div class="cuadro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20c4-8 8-11 16-14"/><path d="M4 20c2-2 3-5 3-8"/></svg>
+          <span>Bosques y suelo</span>
+        </div>
+        <div class="cuadro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11Z"/></svg>
+          <span>Agua</span>
+        </div>
+        <div class="cuadro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a13 13 0 0 1 0 18a13 13 0 0 1 0-18Z"/></svg>
+          <span>Biodiversidad</span>
+        </div>
+        <div class="cuadro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+          <span>Instituciones sólidas</span>
+        </div>
+        <div class="cuadro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H8l-4 4Z"/></svg>
+          <span>Transparencia</span>
+        </div>
+        <div class="cuadro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c4-3 7-6.5 7-11a7 7 0 0 0-14 0c0 4.5 3 8 7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+          <span>Comunidades</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="por-que">
+      <h2>¿Por qué esta campaña?</h2>
+      <p>Muchas veces se habla del medio ambiente y de las leyes que lo protegen como si fueran temas separados. Esta campaña busca mostrar que son la misma lucha: de nada sirve cuidar la naturaleza si las instituciones no responden, y de nada sirve tener leyes si no hay nada que proteger.</p>
+      <p>Como proyecto universitario, esta página busca abrir la conversación entre estudiantes, docentes y comunidad sobre cómo exigir ambas cosas al mismo tiempo.</p>
+    </section>
+
+    <section>
+      <h2>¿Cómo sumarte?</h2>
+      <ul class="acciones">
+        <li><span class="bullet"></span>Comparte esta página con tu grupo o comunidad para abrir la conversación.</li>
+        <li><span class="bullet"></span>Infórmate sobre los procesos ambientales de tu localidad: permisos, denuncias, transparencia.</li>
+        <li><span class="bullet"></span>Súmate a actividades de conservación o vigilancia ciudadana ambiental en tu zona.</li>
+        <li><span class="bullet"></span>Exige claridad: pregunta cómo se aplican las normas ambientales donde vives o estudias.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Fuentes y enlaces oficiales</h2>
+      <div class="recursos">
+        <a class="recurso" href="https://www.gob.mx/semarnat" target="_blank" rel="noopener">
+          <div class="info"><strong>SEMARNAT</strong><small>Secretaría de Medio Ambiente y Recursos Naturales</small></div>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="recurso" href="https://www.profepa.gob.mx" target="_blank" rel="noopener">
+          <div class="info"><strong>PROFEPA</strong><small>Procuraduría Federal de Protección al Ambiente — denuncias e inspección</small></div>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="recurso" href="https://www.gob.mx/conanp" target="_blank" rel="noopener">
+          <div class="info"><strong>CONANP</strong><small>Comisión Nacional de Áreas Naturales Protegidas</small></div>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="recurso" href="https://www.diputados.gob.mx/LeyesBiblio/index.htm" target="_blank" rel="noopener">
+          <div class="info"><strong>Leyes federales vigentes</strong><small>Marco legal ambiental, Cámara de Diputados</small></div>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="cta">
+      <h2>Súmate a Capital Vivo</h2>
+      <p>Deja tu nombre para sumarte simbólicamente a la campaña dentro de este proyecto.</p>
+      <form onsubmit="event.preventDefault(); document.getElementById('confirm').style.display='block'; this.reset();">
+        <input type="text" placeholder="Tu nombre" required>
+        <button type="submit">Sumarme</button>
+      </form>
+      <p class="confirm" id="confirm">¡Gracias por sumarte a Capital Vivo!</p>
+    </div>
+
+    <footer>Capital Vivo — proyecto académico sobre conservación y aplicación de la ley ambiental.</footer>
+  </div>
+</body>
+</html>
