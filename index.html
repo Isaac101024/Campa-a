@@ -79,16 +79,31 @@
 
   .galeria{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:0.5rem;}
   @media (max-width:640px){.galeria{grid-template-columns:repeat(2,1fr);}}
-  .cuadro{
-    aspect-ratio:1; border-radius:14px; background:var(--sand);
-    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.5rem;
-    color:var(--forest); text-align:center; padding:1rem;
-    transition:transform 0.2s ease, background 0.2s ease;
+  .tarjeta{aspect-ratio:1; perspective:1000px; cursor:pointer;}
+  .tarjeta-int{
+    position:relative; width:100%; height:100%; transition:transform 0.6s;
+    transform-style:preserve-3d;
   }
-  .cuadro:hover{transform:translateY(-4px); background:var(--moss); color:var(--bg);}
-  .cuadro:hover svg{color:var(--bg);}
-  .cuadro svg{width:2.3rem; height:2.3rem; color:var(--moss); transition:color 0.2s ease;}
+  .tarjeta.volteada .tarjeta-int{transform:rotateY(180deg);}
+  .cara{
+    position:absolute; inset:0; border-radius:14px; backface-visibility:hidden;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:0.5rem;
+    padding:1rem; text-align:center;
+  }
+  .cuadro{
+    background:var(--sand); color:var(--forest);
+    transition:transform 0.2s ease;
+  }
+  .tarjeta:not(.volteada):hover .cuadro{transform:translateY(-4px);}
+  .cuadro svg{width:2.3rem; height:2.3rem; color:var(--moss);}
   .cuadro span{font-size:0.82rem; font-weight:500; max-width:12ch;}
+  .reverso{
+    background:var(--forest); color:var(--bg); transform:rotateY(180deg);
+    justify-content:flex-end; align-items:stretch; padding:0;
+  }
+  .reverso .escena{flex:1; display:flex; align-items:center; justify-content:center; padding:0.6rem;}
+  .reverso .escena svg{width:70%; height:70%;}
+  .reverso .dato{font-size:0.72rem; line-height:1.35; padding:0 0.8rem 0.8rem; opacity:0.9; text-align:center;}
 
   .recursos{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.7rem;}
   .recurso{
@@ -197,30 +212,114 @@
 
     <section>
       <h2>Lo que está en juego</h2>
+      <p style="font-size:0.85rem; opacity:0.65; margin:-0.3rem 0 1rem;">Toca cada tarjeta para ver más.</p>
       <div class="galeria">
-        <div class="cuadro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20c4-8 8-11 16-14"/><path d="M4 20c2-2 3-5 3-8"/></svg>
-          <span>Bosques y suelo</span>
+        <div class="tarjeta" onclick="this.classList.toggle('volteada')">
+          <div class="tarjeta-int">
+            <div class="cara cuadro">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20c4-8 8-11 16-14"/><path d="M4 20c2-2 3-5 3-8"/></svg>
+              <span>Bosques y suelo</span>
+            </div>
+            <div class="cara reverso">
+              <div class="escena">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <path d="M50 15 30 55h12l-14 30h44l-14-30h12Z" fill="var(--moss)"/>
+                  <rect x="45" y="80" width="10" height="10" fill="var(--clay)"/>
+                </svg>
+              </div>
+              <p class="dato">Cada año se pierde cubierta forestal por cambio de uso de suelo; conservarla sostiene agua, clima y suelo fértil.</p>
+            </div>
+          </div>
         </div>
-        <div class="cuadro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11Z"/></svg>
-          <span>Agua</span>
+        <div class="tarjeta" onclick="this.classList.toggle('volteada')">
+          <div class="tarjeta-int">
+            <div class="cara cuadro">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11Z"/></svg>
+              <span>Agua</span>
+            </div>
+            <div class="cara reverso">
+              <div class="escena">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <path d="M50 20c10 14 20 24 20 38a20 20 0 0 1-40 0c0-14 10-24 20-38Z" fill="var(--moss)"/>
+                </svg>
+              </div>
+              <p class="dato">Ríos, acuíferos y cuencas dependen de ecosistemas sanos; sin ellos, no hay agua limpia para nadie.</p>
+            </div>
+          </div>
         </div>
-        <div class="cuadro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a13 13 0 0 1 0 18a13 13 0 0 1 0-18Z"/></svg>
-          <span>Biodiversidad</span>
+        <div class="tarjeta" onclick="this.classList.toggle('volteada')">
+          <div class="tarjeta-int">
+            <div class="cara cuadro">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a13 13 0 0 1 0 18a13 13 0 0 1 0-18Z"/></svg>
+              <span>Biodiversidad</span>
+            </div>
+            <div class="cara reverso">
+              <div class="escena">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <circle cx="50" cy="50" r="32" fill="var(--moss)"/>
+                  <circle cx="38" cy="42" r="5" fill="var(--forest)"/>
+                  <circle cx="62" cy="55" r="6" fill="var(--forest)"/>
+                  <circle cx="50" cy="68" r="4" fill="var(--forest)"/>
+                </svg>
+              </div>
+              <p class="dato">México es uno de los países con mayor biodiversidad del mundo; cada especie perdida no vuelve.</p>
+            </div>
+          </div>
         </div>
-        <div class="cuadro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
-          <span>Instituciones sólidas</span>
+        <div class="tarjeta" onclick="this.classList.toggle('volteada')">
+          <div class="tarjeta-int">
+            <div class="cara cuadro">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+              <span>Instituciones sólidas</span>
+            </div>
+            <div class="cara reverso">
+              <div class="escena">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <rect x="25" y="45" width="50" height="35" rx="3" fill="var(--moss)"/>
+                  <path d="M20 45 50 25l30 20Z" fill="var(--moss)"/>
+                  <rect x="35" y="55" width="8" height="20" fill="var(--forest)"/>
+                  <rect x="57" y="55" width="8" height="20" fill="var(--forest)"/>
+                </svg>
+              </div>
+              <p class="dato">Sin instituciones fuertes, hasta la mejor ley se queda en el papel. La aplicación efectiva es lo que la hace real.</p>
+            </div>
+          </div>
         </div>
-        <div class="cuadro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H8l-4 4Z"/></svg>
-          <span>Transparencia</span>
+        <div class="tarjeta" onclick="this.classList.toggle('volteada')">
+          <div class="tarjeta-int">
+            <div class="cara cuadro">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H8l-4 4Z"/></svg>
+              <span>Transparencia</span>
+            </div>
+            <div class="cara reverso">
+              <div class="escena">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <circle cx="50" cy="42" r="22" fill="none" stroke="var(--moss)" stroke-width="6"/>
+                  <circle cx="50" cy="42" r="9" fill="var(--moss)"/>
+                  <rect x="46" y="68" width="8" height="14" fill="var(--moss)"/>
+                </svg>
+              </div>
+              <p class="dato">Procesos claros y públicos generan confianza y permiten que cualquier persona vigile su cumplimiento.</p>
+            </div>
+          </div>
         </div>
-        <div class="cuadro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c4-3 7-6.5 7-11a7 7 0 0 0-14 0c0 4.5 3 8 7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
-          <span>Comunidades</span>
+        <div class="tarjeta" onclick="this.classList.toggle('volteada')">
+          <div class="tarjeta-int">
+            <div class="cara cuadro">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c4-3 7-6.5 7-11a7 7 0 0 0-14 0c0 4.5 3 8 7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+              <span>Comunidades</span>
+            </div>
+            <div class="cara reverso">
+              <div class="escena">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <circle cx="35" cy="55" r="12" fill="var(--moss)"/>
+                  <circle cx="65" cy="55" r="12" fill="var(--moss)"/>
+                  <circle cx="50" cy="35" r="12" fill="var(--moss)"/>
+                </svg>
+              </div>
+              <p class="dato">Quienes viven cerca del recurso natural son los primeros afectados y los primeros que deben decidir sobre él.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
