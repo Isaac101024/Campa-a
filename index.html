@@ -495,35 +495,44 @@
         }, 20);
       }
 
-      (async function(){
+      async function conectar(){
         try{ db = await claude.use('db'); }catch(e){ db = null; }
         if(!db){
           cifra.textContent = '0';
+          console.warn('Capital Vivo: el almacenamiento no está disponible en esta vista todavía.');
           return;
         }
         db.collection('sumados').onSnapshot(function(snap){
           animarHasta(snap.docs.length);
         }, function(err){
           cifra.textContent = '0';
+          console.error('Capital Vivo: error leyendo el contador', err);
         });
-      })();
+      }
+      conectar();
 
       form.addEventListener('submit', async function(e){
         e.preventDefault();
         var nombre = input.value.trim();
         if(!nombre) return;
         boton.disabled = true;
+        boton.textContent = 'Guardando…';
         try{
+          if(!db){ db = await claude.use('db'); }
           if(db){
             await db.collection('sumados').add({ nombre: nombre, ts: Date.now() });
+            confirmMsg.textContent = '¡Gracias por sumarte a Capital Vivo!';
+          } else {
+            confirmMsg.textContent = 'No se pudo conectar el contador. Recarga la página e inténtalo de nuevo.';
           }
-          confirmMsg.style.display = 'block';
-          form.reset();
         }catch(err){
-          confirmMsg.textContent = 'No se pudo guardar ahora mismo, intenta de nuevo.';
-          confirmMsg.style.display = 'block';
+          confirmMsg.textContent = 'No se pudo guardar ahora mismo (' + (err && err.code ? err.code : 'error') + '). Intenta de nuevo.';
+          console.error('Capital Vivo: error al sumar', err);
         }
+        confirmMsg.style.display = 'block';
+        form.reset();
         boton.disabled = false;
+        boton.textContent = 'Sumarme';
       });
     })();
   </script>
